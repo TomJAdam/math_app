@@ -3,9 +3,6 @@
 require "./questions"
 require "./players"
 
-player_one = Player.new('Player 1')
-player_two = Player.new('Player 2')
-
 def new_questions()
   num_one = rand(1...21)
   num_two = rand(1...21)
@@ -14,6 +11,9 @@ def new_questions()
   return Questions.new(question, answer)
 end
 
+player_one = Player.new('Player 1')
+player_two = Player.new('Player 2')
+
 player_one_turn = true 
 player = player_one
 
@@ -21,16 +21,12 @@ while (player_one.score > 0 && player_two.score > 0) do
   questions_array = []
   questions_array.push(new_questions())
 
-  if player_one_turn == true
-    player = player_one
-  elsif player_one_turn == false
-    player = player_two
-  end
+  player = player_one_turn ? player_one : player_two
 
   puts questions_array[questions_array.length - 1].question
-  ans = gets.chomp
+  user_answer = gets.chomp
 
-  if ans.to_i == questions_array[questions_array.length - 1].answer
+  if user_answer.to_i == questions_array[questions_array.length - 1].answer
     puts "#{player.name}: Great job!"
   else 
     player.score -= 1
@@ -41,14 +37,10 @@ while (player_one.score > 0 && player_two.score > 0) do
 
   puts "** NEXT TURN **"
 
-  if player_one_turn == true
-    player_one_turn = false
-  elsif player_one_turn == false
-    player_one_turn = true
-  end
+  player_one_turn = player_one_turn ? false : true
 
   if player.score == 0
-    puts "GAME OVER #{player.name} LOSES!!"
+    puts "💀💀 GAME OVER #{player.name} LOSES! 💀💀"
   end
 end
 
