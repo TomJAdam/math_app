@@ -14,17 +14,41 @@ def new_questions()
   return Questions.new(question, answer)
 end
 
-test = new_questions()
+player_one_turn = true 
+player = player_one
 
-puts test.question
-ans = gets.chomp
+while (player_one.score > 0 && player_two.score > 0) do
+  questions_array = []
+  questions_array.push(new_questions())
 
-if ans.to_i == test.answer
-  puts "#{player_one.name}: Great job!"
-else 
-  player_one.score -= 1
-  puts "#{player_one.name}: You suck!"
+  if player_one_turn == true
+    player = player_one
+  elsif player_one_turn == false
+    player = player_two
+  end
+
+  puts questions_array[questions_array.length - 1].question
+  ans = gets.chomp
+
+  if ans.to_i == questions_array[questions_array.length - 1].answer
+    puts "#{player.name}: Great job!"
+  else 
+    player.score -= 1
+    puts "#{player.name}: You suck!"
+  end
+
+  puts "P1: #{player_one.score}/3 vs P2: #{player_two.score}/3"
+
+  puts "** NEXT TURN **"
+
+  if player_one_turn == true
+    player_one_turn = false
+  elsif player_one_turn == false
+    player_one_turn = true
+  end
+
+  if player.score == 0
+    puts "GAME OVER #{player.name} LOSES!!"
+  end
 end
-
-puts "P1: #{player_one.score} vs P2: #{player_two.score}"
 
